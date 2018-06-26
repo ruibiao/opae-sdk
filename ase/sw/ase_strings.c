@@ -80,11 +80,37 @@ int ase_memcpy_s(void *dest, size_t dmax, const void *src, size_t smax)
 	return 0;
 }
 
+/*
+* ase_memset_s - Secure memset abstraction.  Return 0 on success.
+*/
+int ase_memset_s(void *dest, int c, size_t len)
+{
+	// No NULL pointers, maxima must be non-zero, smax must be less than dmax
+	// and dmax must be less than 256MB.
+	if ((dest == NULL) ||
+		(len == 0) ||
+		(len > (256UL << 20))) {
+		ASE_DBG("Illegal parameter to ase_memcpy_s");
+		return -1;
+	}
+
+	// Strings must not overlap
+	if (buffers_overlap(dest, dmax, src, smax)) {
+		ASE_DBG("Illegal buffer overlap in ase_memset_s");
+		return -1;
+	}
+
+	memset(dest, c, len);
+	return 0;
+}
+
 
 /*
  * ASE string copy.  Returns 0 on success.
  */
 int ase_strncpy_s(char *dest, size_t dmax, const char *src, size_t slen)
+
+
 {
 	// No NULL pointers, maxima must be non-zero, smax must be less than dmax
 	// and dmax must be less than 4KB.

@@ -479,6 +479,7 @@ int ase_strncmp(const char *, const char *, size_t);
 
 // Safe string equivalents
 int ase_memcpy_s(void *, size_t, const void *, size_t);
+int ase_memset_s(void *dest, int c, size_t len);
 int ase_strncpy_s(char *, size_t, const char *, size_t);
 int ase_strcmp_s(const char *, size_t, const char *, int *);
 
